@@ -4,6 +4,7 @@ const path = require('path');
 const app = express();
 // A session criada abaixo 
 const session = require('express-session')
+const connection = require('./database/database.js')
 
 // Setup de ambiente
 // View engine
@@ -25,19 +26,31 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Banco de dados
-// TODO
+connection.authenticate()
+          // Then é executado quando tudo corre bem
+          .then(() => { 
+            console.log('Conexão feita com sucesso!')
+          })
+          // Catch é executado quando der erro
+          .catch(erro => {
+            console.log('Problemas na conexão!')
+          })
 
 // Parse de formulários - decripta os formularios para que possa ser lido
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Models
+// Models - Primeiro a fazer
+const Usuario = require('./models/usuario')
+const Genero = require('./models/genero')
+const Editora = require('./models/editora')
+const Autor = require('./models/autor')
+const Livro = require('./models/livro')
+
+// Contollers - Segundo a fazer
 // TODO
 
-// Contollers
-// TODO
-
-// Rotas
+// Rotas - Terceiro a fazer
 // TODO
 
 module.exports = app;
